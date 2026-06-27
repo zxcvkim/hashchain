@@ -42,7 +42,10 @@ pub struct HashChain {
 
 impl HashChain {
     pub fn new() -> Self {
-        Self { blocks: vec![] }
+        let genesis_block = Block::new(Hash::zero(), "hello world!".to_string());
+        Self {
+            blocks: vec![genesis_block],
+        }
     }
 
     pub fn blocks(&self) -> &[Block] {
