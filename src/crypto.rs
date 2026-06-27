@@ -1,9 +1,9 @@
 use std::fmt;
 
-use bincode::Encode;
+use bincode::{Decode, Encode};
 use sha2::{Digest, Sha256};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Encode)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Encode, Decode)]
 pub struct Hash(pub [u8; 32]);
 
 impl Hash {

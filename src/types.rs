@@ -1,8 +1,8 @@
-use bincode::{Encode, config};
+use bincode::{Decode, Encode, config};
 
 use crate::{crypto::Hash, util};
 
-#[derive(Debug, Encode)]
+#[derive(Debug, Clone, Encode, Decode)]
 pub struct Block {
     prev_hash: Hash,
     content: String,
@@ -36,6 +36,7 @@ impl Block {
     }
 }
 
+#[derive(Debug, Clone, Encode, Decode)]
 pub struct HashChain {
     blocks: Vec<Block>,
 }
