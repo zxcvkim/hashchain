@@ -1,4 +1,4 @@
-use bincode::{Decode, Encode, config};
+use bincode::{Decode, Encode};
 
 use crate::{crypto::Hash, util};
 
@@ -31,7 +31,9 @@ impl Block {
     }
 
     pub fn hash(&self) -> Hash {
-        let bytes = bincode::encode_to_vec(self, config::standard()).unwrap();
+        let config = bincode::config::standard();
+        let bytes = bincode::encode_to_vec(self, config).unwrap();
+
         Hash::hash(&bytes)
     }
 }
@@ -47,6 +49,20 @@ impl HashChain {
         Self {
             blocks: vec![genesis_block],
         }
+    }
+
+    pub fn from_bytes(bytes: &[u8]) -> Result<Self, bincode::error::DecodeError> {
+        let config = bincode::config::standard();
+        let (chain, _): (Self, usize) = bincode::decode_from_slice(bytes, config)?;
+
+        Ok(chain)
+    }
+
+    pub fn to_bytes(&self) -> Result<Vec<u8>, bincode::error::EncodeError> {
+        let config = bincode::config::standard();
+        let encoded: Vec<u8> = bincode::encode_to_vec(self, config)?;
+
+        Ok(encoded)
     }
 
     pub fn blocks(&self) -> &[Block] {
