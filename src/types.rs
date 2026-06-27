@@ -69,6 +69,10 @@ impl HashChain {
         &self.blocks
     }
 
+    pub fn latest_block(&self) -> Option<&Block> {
+        self.blocks.last()
+    }
+
     pub fn add_block(&mut self, block: Block) {
         self.blocks.push(block);
     }
